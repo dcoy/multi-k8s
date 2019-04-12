@@ -1,0 +1,20 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t dcoy/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run dcoy/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t dcoy/multi-client ./client
+  - docker build -t dcoy/multi-nginx ./nginx
+  - docker build -t dcoy/multi-server ./server
+  - docker build -t dcoy/multi-worker ./worker
+  - echo "$HUB_PASSWORD" | docker login -u "$HUB_USER" --password-stdin
+  - docker push dcoy/multi-client
+  - docker push dcoy/multi-nginx
+  - docker push dcoy/multi-server
+  - docker push dcoy/multi-worker
