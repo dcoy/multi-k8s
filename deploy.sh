@@ -16,5 +16,5 @@ docker push dcoy/multi-worker:$SHA
 
 kubectl apply -f k8s -R
 kubectl set image deployment/server-deployment server=dcoy/multi-server:$SHA
-kubectl set image deployment/client-deployment server=dcoy/multi-client:$SHA
-kubectl set image deployment/worker-deployment server=dcoy/multi-worker:$SHA
+kubectl set image deployment/client-deployment client=dcoy/multi-client:$SHA
+kubectl set image deployment/worker-deployment worker=dcoy/multi-worker:$SHA
